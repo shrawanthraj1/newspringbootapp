@@ -25,5 +25,34 @@ pipeline {
                 echo '<------------- Unit Testing stopped  --------------->'
       }
     }
-}
+} stage('Sonar Analysis') {
+      environment {
+        scannerHome = tool 'sonar-scanner'
+      }
+      steps {
+        echo '<--------------- Sonar Analysis started  --------------->'
+        //         withSonarQubeEnv('sonar-cloud') {
+        //         sh "${scannerHome}/bin/sonar-scanner"
+
+        // }
+        withSonarQubeEnv('sonar-cloud') {
+          sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=springbootapp -Dsonar.organization=malibalakrishna -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=xxxxxxxxxxxxxxxx'
+          echo '<--------------- Sonar Analysis stopped  --------------->'
+        }
+      }
+    }
+         stage('Quality Gate') {
+      steps {
+        script {
+          echo '<--------------- Quality Gate started  --------------->'
+          timeout(time: 1, unit: 'MINUTES') {
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') {
+              error 'Pipeline failed due to the Quality gate issue'
+            }
+          }
+          echo '<--------------- Quality Gate stopped  --------------->'
+        }
+      }
+         }
 }
