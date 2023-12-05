@@ -31,10 +31,10 @@ pipeline {
       }
       steps {
         echo '<--------------- Sonar Analysis started  --------------->'
-                withSonarQubeEnv('sonar-cloud') {
-              sh "${scannerHome}/bin/sonar-scanner"
+            //    withSonarQubeEnv('sonar-cloud') {
+            //  sh "${scannerHome}/bin/sonar-scanner"
          
-        }
+     //   }
         withSonarQubeEnv('SonarCloud') {
           sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=org-kube -Dsonar.organization=org -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=aa94284971e239c18d2c591629d16cbc88a23c78'
           echo '<--------------- Sonar Analysis stopped  --------------->'
