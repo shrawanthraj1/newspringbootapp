@@ -25,5 +25,21 @@ pipeline {
                 echo '<------------- Unit Testing stopped  --------------->'
       }
     }
+        stage('Sonar Analysis') {
+      environment {
+        scannerHome = tool 'sonar-scanner'
+      }
+      steps {
+        echo '<--------------- Sonar Analysis started  --------------->'
+        //         withSonarQubeEnv('sonar-cloud') {
+        //         sh "${scannerHome}/bin/sonar-scanner"
+
+        // }
+        withSonarQubeEnv('sonar-cloud') {
+          sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=newspringbootapp -Dsonar.organization=eddzaa -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=ecb90074d03b180890ed61d4d0e7096698c58371'
+          echo '<--------------- Sonar Analysis stopped  --------------->'
+        }
+      }
+    }
     }
     }
