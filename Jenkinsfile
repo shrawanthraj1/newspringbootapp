@@ -13,7 +13,7 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/shrawanthraj1/newspringbootapp.git']]])     
             }
         }
-      stage ('Build') {
+      stage('Build') {
           steps {
             sh 'mvn clean install'           
             }
@@ -40,6 +40,7 @@ pipeline {
           echo '<--------------- Sonar Analysis stopped  --------------->'
         }
       }
+    }
            stage('Quality Gate') {
       steps {
         script {
