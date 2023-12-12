@@ -25,7 +25,7 @@ pipeline {
                 echo '<------------- Unit Testing stopped  --------------->'
       }
     }
-        stage('Sonar Analysis') {
+    stage('Sonar Analysis') {
       environment {
         scannerHome = tool 'sonar-scanner'
       }
